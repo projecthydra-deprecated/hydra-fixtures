@@ -24,10 +24,10 @@ module Hydra
       end
       
       it "can provide a list of all the fixtures" do
-        pending
         foo = Hydra::FixtureManager.new
-        foo.getFixtureList.should be_kind_of(Array)
-        foo.length.should eql(17)
+        fl = foo.fixture_list
+        fl.should be_kind_of(Array)
+        fl.length.should eql(17)
       end
       
     end
