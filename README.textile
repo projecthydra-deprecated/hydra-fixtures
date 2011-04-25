@@ -1,0 +1,19 @@
+h1. hydra-fixtures
+
+This gem loads, deletes, and refreshes the fixtures that hydra tests against. 
+
+h2. Instructions for use in a hydra head
+
+h2. Instructions for changing this gem
+
+h4. Download the source
+
+bc. git clone git@github.com:projecthydra/hydra-fixtures.git
+
+h4. Download jetty
+
+bc.. 
+git submodule init
+git submodule update
+
+p. foo
