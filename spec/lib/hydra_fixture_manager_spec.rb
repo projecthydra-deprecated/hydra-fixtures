@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 require File.join(File.dirname(__FILE__), "/../../lib/hydra_fixture_manager")
+require File.join(File.dirname(__FILE__), "/../../lib/hydra_fixture_utils")
 
 module Hydra
   describe FixtureManager do
@@ -23,11 +24,19 @@ module Hydra
         lambda{Hydra::FixtureManager.new(:fixture_directory => "/foo/bar")}.should raise_exception
       end
       
-      it "can provide a list of all the fixtures" do
+      it "can provide a list of all the fixture files" do
         foo = Hydra::FixtureManager.new
-        fl = foo.fixture_list
+        fl = foo.file_list
         fl.should be_kind_of(Array)
         fl.length.should eql(17)
+      end
+      
+      it "can provide a list of all the PIDs" do
+        foo = Hydra::FixtureManager.new
+        pid_list = foo.pid_list
+        pid_list.should be_kind_of(Array)
+        pid_list.length.should eql(17)
+        pid_list.include?("libra-oa:8").should eql(true)
       end
       
     end
