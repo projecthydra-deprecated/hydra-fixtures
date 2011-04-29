@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), "/../spec_helper")
 require File.join(File.dirname(__FILE__), "/../../lib/hydra_fixture_manager")
 require File.join(File.dirname(__FILE__), "/../../lib/hydra_fixture_utils")
+require 'active-fedora'
 
 module Hydra
   describe FixtureManager do
@@ -40,5 +41,21 @@ module Hydra
       end
       
     end
+    
+    context "connecting to fedora" do
+      before(:all) do
+        @fm = Hydra::FixtureManager.new
+      end
+      
+      it "knows which fedora repository it's using" do
+        @fm.fedora_url.should eql("http://fedoraAdmin:fedoraAdmin@127.0.0.1:8983/fedora")
+      end
+      
+      it "knows whether it has a valid connection to fedora" do
+        @fm.connection?.should eql(true)
+      end
+      
+    end
+  
   end
 end

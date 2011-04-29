@@ -1,3 +1,4 @@
+require 'active-fedora'
 
 module Hydra
   class FixtureManager
@@ -21,6 +22,7 @@ module Hydra
       end
       @pid_list = []
       read_fixtures
+      ActiveFedora.init unless Thread.current[:repo]
     end
     
     # Read in the fixtures and cache a list of their PIDs
@@ -33,6 +35,45 @@ module Hydra
       @file_list.each do |file|
         @pid_list << Hydra::FixtureUtils.extract_pid(file)
       end
+    end
+    
+    # return the url of the fedora repo currently being used
+    # @return [String] the fedora url
+    def fedora_url
+      ActiveFedora.fedora.fedora_url.to_s
+    end
+    
+    # Do we have a valid connection to fedora?
+    # @return [Boolean] true if we have a connection, otherwise false
+    def connection?
+      begin
+        obj = ActiveFedora::Base.load_instance("fedora-system:FedoraObject-3.0")
+        if(obj.pid == "fedora-system:FedoraObject-3.0")
+          return true
+        else
+          logger.debug("Tried to load fedora-system:FedoraObject-3.0 from #{self.fedora_url} but I couldn't.")
+          return false
+        end
+      rescue Errno::ECONNREFUSED
+        logger.error("Can't connect to fedora! Attempting to connect to #{self.fedora_url}")
+        return false
+      end
+    end
+    
+    # Load all the fixtures
+    # @param
+    # @return
+    # @example
+    def load_all_fixtures
+      
+    end
+    
+    # WHAT_DOES_THIS_METHOD_DO?
+    # @param [String] pid the PID of the fixture to delete from Fedora
+    # @return [Boolean] true if the fixture was deleted, false if it wasn't found
+    # @example
+    def delete_fixture(pid)
+      
     end
 
 
